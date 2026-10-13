@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Table - FoodieExpress 📅</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">🍕 Foodie<span>Express</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="recipes.html">Recipes</a></li>
+        <li><a href="booking.html" class="active">Book Table</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Book a Table 📅</h1>
+      <p>Reserve your spot for a wonderful dining experience</p>
+      <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Book Table</span></div>
+    </div>
+  </section>
+
+  <!-- BOOKING SECTION -->
+  <section class="booking-page section">
+    <div class="container">
+      <div class="booking-container">
+        <form class="booking-form" onsubmit="submitBooking(event)">
+          <h3>📝 Reservation Details</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" class="form-control" id="bookName" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" class="form-control" id="bookPhone" placeholder="+91 XXXXXXXXXX" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" id="bookEmail" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label>Date *</label>
+              <input type="date" class="form-control" id="bookDate" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Number of Guests *</label>
+              <select class="form-control" id="bookGuests" required>
+                <option value="">Select guests</option>
+                <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option>
+                <option>4 Guests</option><option>5 Guests</option><option>6 Guests</option>
+                <option>7 Guests</option><option>8 Guests</option><option>9 Guests</option>
+                <option>10+ Guests</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Special Occasion</label>
+              <select class="form-control" id="bookOccasion">
+                <option value="none">None</option>
+                <option>🎂 Birthday</option><option>💍 Anniversary</option>
+                <option>💼 Business Meeting</option><option>❤️ Date Night</option>
+                <option>👨‍👩‍👧‍👦 Family Gathering</option><option>🎉 Celebration</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Select Time Slot *</label>
+            <div class="time-slots" id="timeSlots"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Special Requests (Optional)</label>
+            <textarea class="form-control" rows="3" placeholder="Any dietary needs, seating preferences, decorations..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block">✅ Confirm Reservation</button>
+        </form>
+
+        <!-- Booking Info Cards -->
+        <div class="booking-info">
+          <div class="booking-info-card">
+            <div class="info-icon">📍</div>
+            <h4>Location</h4>
+            <p>FoodieExpress Restaurant<br>Connaught Place, New Delhi</p>
+          </div>
+          <div class="booking-info-card">
+            <div class="info-icon">⏰</div>
+            <h4>Hours</h4>
+            <p>Mon - Sun<br>11:00 AM - 11:00 PM</p>
+          </div>
+          <div class="booking-info-card">
+            <div class="info-icon">📞</div>
+            <h4>Reservations</h4>
+            <p>+91 7678268783<br>adarsh@foodieexpress.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="order-success">
+        <div class="order-success-icon">🎉</div>
+        <h2>Reservation Confirmed!</h2>
+        <div class="order-id">Booking ID: #<span id="bookingId">BK000000</span></div>
+        <p id="bookingDetails"></p>
+        <p style="color:var(--text-light);margin-top:15px">We'll send a confirmation to your phone.<br>Please arrive 10 minutes before your slot.</p>
+        <div style="margin-top:25px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap">
+          <a href="index.html" class="btn btn-primary">🏠 Go Home</a>
+          <a href="menu.html" class="btn btn-outline">🍽️ View Menu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" onclick="backToTop()">↑</button>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>🛒 Your Cart</h3><button class="close-cart" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Total:</span><span id="cartTotal">₹0</span></div><a href="order.html" class="btn btn-primary btn-block">Proceed to Order →</a></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h3>🍕 FoodieExpress</h3><p>Delicious food delivered to your doorstep. Fresh ingredients, amazing taste, fast delivery!</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="menu.html">Menu</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="booking.html">Book Table</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Contact Info</h4><p>📞 +91 7678268783</p><p>📧 adarsh@foodieexpress.com</p><p>📍 New Delhi, India</p></div>
+        <div class="footer-col"><h4>Follow Us</h4><div class="social-links"><a href="#">📘 Facebook</a><a href="#">📸 Instagram</a><a href="#">🐦 Twitter</a><a href="#">▶️ YouTube</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 FoodieExpress. All rights reserved. Made with ❤️ by Adarsh Yadav</p></div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

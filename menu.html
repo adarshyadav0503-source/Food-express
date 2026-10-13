@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - FoodieExpress 🍽️</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">🍕 Foodie<span>Express</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="recipes.html">Recipes</a></li>
+        <li><a href="booking.html">Book Table</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Our Menu 🍽️</h1>
+      <p>110+ delicious dishes from multiple cuisines</p>
+      <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Menu</span></div>
+    </div>
+  </section>
+
+  <!-- MENU SECTION -->
+  <section class="section">
+    <div class="container">
+      <!-- Search & Filters -->
+      <div class="menu-controls">
+        <div class="search-bar">
+          <input type="text" placeholder="Search dishes..." oninput="searchMenu(this.value)">
+          <button>🔍</button>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterMenu('all')">All</button>
+          <button class="filter-tab" onclick="filterMenu('pizza')">🍕 Pizza</button>
+          <button class="filter-tab" onclick="filterMenu('burger')">🍔 Burger</button>
+          <button class="filter-tab" onclick="filterMenu('biryani')">🍛 Biryani</button>
+          <button class="filter-tab" onclick="filterMenu('chinese')">🥡 Chinese</button>
+          <button class="filter-tab" onclick="filterMenu('indian')">🍲 Indian</button>
+          <button class="filter-tab" onclick="filterMenu('south-indian')">🫕 South Indian</button>
+          <button class="filter-tab" onclick="filterMenu('street-food')">🍿 Street Food</button>
+          <button class="filter-tab" onclick="filterMenu('rolls')">🌯 Rolls</button>
+          <button class="filter-tab" onclick="filterMenu('desserts')">🍰 Desserts</button>
+          <button class="filter-tab" onclick="filterMenu('beverages')">☕ Beverages</button>
+        </div>
+      </div>
+      <p class="item-count" id="itemCount">Showing 111 items</p>
+
+      <!-- Menu Grid -->
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" onclick="backToTop()">↑</button>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>🛒 Your Cart</h3><button class="close-cart" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"><div class="empty-cart"><div class="empty-cart-icon">🛒</div><p>Your cart is empty</p></div></div>
+    <div class="cart-footer"><div class="cart-total"><span>Total:</span><span id="cartTotal">₹0</span></div><a href="order.html" class="btn btn-primary btn-block">Proceed to Order →</a></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h3>🍕 FoodieExpress</h3><p>Delicious food delivered to your doorstep. Fresh ingredients, amazing taste, fast delivery!</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="menu.html">Menu</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="booking.html">Book Table</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Contact Info</h4><p>📞 +91 7678268783</p><p>📧 adarsh@foodieexpress.com</p><p>📍 New Delhi, India</p></div>
+        <div class="footer-col"><h4>Follow Us</h4><div class="social-links"><a href="#">📘 Facebook</a><a href="#">📸 Instagram</a><a href="#">🐦 Twitter</a><a href="#">▶️ YouTube</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 FoodieExpress. All rights reserved. Made with ❤️ by Adarsh Yadav</p></div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

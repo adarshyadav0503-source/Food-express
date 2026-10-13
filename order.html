@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order - FoodieExpress 🛒</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">🍕 Foodie<span>Express</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html" class="active">Order</a></li>
+        <li><a href="recipes.html">Recipes</a></li>
+        <li><a href="booking.html">Book Table</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Your Order 🛒</h1>
+      <p>Review your items and complete payment</p>
+      <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Order</span></div>
+    </div>
+  </section>
+
+  <!-- ORDER SECTION -->
+  <section class="order-page section">
+    <div class="container">
+      <div class="order-grid">
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h3>📋 Order Summary</h3>
+          <div id="orderItems"></div>
+        </div>
+
+        <!-- Delivery Form -->
+        <div class="delivery-form">
+          <h3>🚚 Delivery Details</h3>
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" class="form-control" id="orderName" placeholder="Enter your name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" class="form-control" id="orderPhone" placeholder="+91 XXXXXXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" id="orderEmail" placeholder="your@email.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Delivery Address *</label>
+            <textarea class="form-control" id="orderAddress" rows="3" placeholder="Full address with landmark" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" class="form-control" value="New Delhi">
+            </div>
+            <div class="form-group">
+              <label>Pincode</label>
+              <input type="text" class="form-control" placeholder="110001">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Delivery Instructions (Optional)</label>
+            <textarea class="form-control" rows="2" placeholder="Ring the bell, leave at door, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Section -->
+      <div class="payment-section">
+        <h3>💳 Payment Method</h3>
+        <div class="payment-options">
+          <div class="payment-option active" onclick="selectPayment('upi')">
+            <div class="pay-icon">📱</div>
+            <h4>UPI / QR Code</h4>
+            <p>Scan & pay instantly</p>
+          </div>
+          <div class="payment-option" onclick="selectPayment('cod')">
+            <div class="pay-icon">💵</div>
+            <h4>Cash on Delivery</h4>
+            <p>Pay when you receive</p>
+          </div>
+        </div>
+
+        <!-- QR Payment -->
+        <div id="qrPayment" class="qr-payment">
+          <h4>Scan QR Code to Pay</h4>
+          <p style="color:var(--text-light);margin-bottom:15px">Use any UPI app — GPay, PhonePe, Paytm</p>
+          <img src="images/qr-code.jpg" alt="UPI QR Code" class="qr-code-img">
+          <div class="upi-info">
+            <h4>ADARSH YADAV</h4>
+            <p>UPI ID:</p>
+            <div class="upi-id">7678268783@kotakbank</div>
+          </div>
+        </div>
+
+        <!-- COD -->
+        <div id="codPayment" class="cod-section" style="display:none">
+          <div class="cod-icon">💵</div>
+          <h4>Cash on Delivery</h4>
+          <p style="color:var(--text-light)">Pay the delivery person when your order arrives.<br>Please keep exact change ready.</p>
+        </div>
+
+        <div class="text-center" style="margin-top:30px">
+          <button class="btn btn-primary btn-lg" onclick="placeOrder()">✅ Place Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER SUCCESS MODAL -->
+  <div class="modal-overlay" id="orderSuccessModal">
+    <div class="modal-content">
+      <div class="order-success">
+        <div class="order-success-icon">✅</div>
+        <h2>Order Placed Successfully!</h2>
+        <p>Your delicious food is being prepared</p>
+        <div class="order-id">Order ID: #<span id="orderId">FE00000000</span></div>
+        <p>⏱️ Estimated delivery: <strong>30-40 minutes</strong></p>
+        <p style="color:var(--text-light);margin-top:10px">You will receive a confirmation on your phone</p>
+        <div style="margin-top:25px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap">
+          <a href="index.html" class="btn btn-primary">🏠 Go Home</a>
+          <a href="menu.html" class="btn btn-outline">🍽️ Order More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" onclick="backToTop()">↑</button>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>🛒 Your Cart</h3><button class="close-cart" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Total:</span><span id="cartTotal">₹0</span></div><a href="order.html" class="btn btn-primary btn-block">Proceed to Order →</a></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h3>🍕 FoodieExpress</h3><p>Delicious food delivered to your doorstep. Fresh ingredients, amazing taste, fast delivery!</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="menu.html">Menu</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="booking.html">Book Table</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Contact Info</h4><p>📞 +91 7678268783</p><p>📧 adarsh@foodieexpress.com</p><p>📍 New Delhi, India</p></div>
+        <div class="footer-col"><h4>Follow Us</h4><div class="social-links"><a href="#">📘 Facebook</a><a href="#">📸 Instagram</a><a href="#">🐦 Twitter</a><a href="#">▶️ YouTube</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 FoodieExpress. All rights reserved. Made with ❤️ by Adarsh Yadav</p></div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

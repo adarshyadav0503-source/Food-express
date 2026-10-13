@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes - FoodieExpress 🍳</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">🍕 Foodie<span>Express</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="recipes.html" class="active">Recipes</a></li>
+        <li><a href="booking.html">Book Table</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Learn to Cook 🍳</h1>
+      <p>Step-by-step recipes to make restaurant-quality dishes at home</p>
+      <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span>Recipes</span></div>
+    </div>
+  </section>
+
+  <!-- RECIPE SECTION -->
+  <section class="section">
+    <div class="container">
+      <!-- Filters -->
+      <div class="menu-controls">
+        <div class="search-bar">
+          <input type="text" placeholder="Search recipes..." oninput="let q=this.value.toLowerCase(); renderRecipes(recipes.filter(r=>r.name.toLowerCase().includes(q)||r.desc.toLowerCase().includes(q)))">
+          <button>🔍</button>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterRecipes('all')">All</button>
+          <button class="filter-tab" onclick="filterRecipes('main')">🍲 Main Course</button>
+          <button class="filter-tab" onclick="filterRecipes('snack')">🍿 Snacks</button>
+          <button class="filter-tab" onclick="filterRecipes('starter')">🥗 Starters</button>
+          <button class="filter-tab" onclick="filterRecipes('dessert')">🍰 Desserts</button>
+          <button class="filter-tab" onclick="filterRecipes('beverage')">☕ Beverages</button>
+          <button class="filter-tab" onclick="filterRecipes('easy')">✅ Easy</button>
+          <button class="filter-tab" onclick="filterRecipes('medium')">⚡ Medium</button>
+          <button class="filter-tab" onclick="filterRecipes('hard')">🔥 Hard</button>
+        </div>
+      </div>
+
+      <!-- Recipe Grid -->
+      <div class="recipe-grid" id="recipeGrid"></div>
+    </div>
+  </section>
+
+  <!-- COOKING TIPS -->
+  <section class="section" style="background:var(--white)">
+    <div class="container">
+      <h2 class="section-title">Pro Cooking <span>Tips</span> 💡</h2>
+      <p class="section-subtitle">Master these basics and elevate every dish</p>
+      <div class="tip-grid">
+        <div class="tip-card fade-in">
+          <div class="tip-icon">🧂</div>
+          <h4>Season As You Go</h4>
+          <p>Add salt and spices at every stage of cooking, not just at the end. Layers of seasoning create depth of flavor.</p>
+        </div>
+        <div class="tip-card fade-in">
+          <div class="tip-icon">🔥</div>
+          <h4>Hot Pan, Cold Oil</h4>
+          <p>Let the pan get hot before adding oil. This prevents food from sticking and gives better sear marks.</p>
+        </div>
+        <div class="tip-card fade-in">
+          <div class="tip-icon">🧅</div>
+          <h4>Caramelize Slowly</h4>
+          <p>Cook onions on low-medium heat for 15-20 min for deep caramelization. Patience creates the best base for gravies.</p>
+        </div>
+        <div class="tip-card fade-in">
+          <div class="tip-icon">🌿</div>
+          <h4>Fresh Herbs Last</h4>
+          <p>Add fresh herbs like coriander, mint, and basil at the very end of cooking to preserve their aroma and color.</p>
+        </div>
+        <div class="tip-card fade-in">
+          <div class="tip-icon">🍋</div>
+          <h4>Acid Brightens Everything</h4>
+          <p>A squeeze of lemon or dash of vinegar at the end brightens any dish. It's the secret restaurant trick!</p>
+        </div>
+        <div class="tip-card fade-in">
+          <div class="tip-icon">⏰</div>
+          <h4>Rest Your Meat</h4>
+          <p>After cooking, let meat rest for 5-10 min before cutting. This lets juices redistribute for a tender result.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECIPE DETAIL MODAL -->
+  <div class="modal-overlay" id="recipeModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <img class="modal-image" id="recipeModalImage" src="" alt="">
+      <div class="modal-body">
+        <h2 id="recipeModalTitle"></h2>
+        <div class="recipe-meta" id="recipeModalMeta"></div>
+        <div id="recipeModalNutrition"></div>
+        <h3>📝 Ingredients</h3>
+        <ul class="ingredients-list" id="recipeModalIngredients"></ul>
+        <h3>👨‍🍳 Steps</h3>
+        <ol class="steps-list" id="recipeModalSteps"></ol>
+        <div id="recipeModalTips"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" onclick="backToTop()">↑</button>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>🛒 Your Cart</h3><button class="close-cart" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Total:</span><span id="cartTotal">₹0</span></div><a href="order.html" class="btn btn-primary btn-block">Proceed to Order →</a></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h3>🍕 FoodieExpress</h3><p>Delicious food delivered to your doorstep. Fresh ingredients, amazing taste, fast delivery!</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="menu.html">Menu</a></li><li><a href="recipes.html">Recipes</a></li><li><a href="booking.html">Book Table</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div class="footer-col"><h4>Contact Info</h4><p>📞 +91 7678268783</p><p>📧 adarsh@foodieexpress.com</p><p>📍 New Delhi, India</p></div>
+        <div class="footer-col"><h4>Follow Us</h4><div class="social-links"><a href="#">📘 Facebook</a><a href="#">📸 Instagram</a><a href="#">🐦 Twitter</a><a href="#">▶️ YouTube</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 FoodieExpress. All rights reserved. Made with ❤️ by Adarsh Yadav</p></div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
