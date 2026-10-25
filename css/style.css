@@ -368,6 +368,12 @@ button { cursor:pointer; }
 .back-to-top.show { display:flex; }
 .back-to-top:hover { background:var(--primary-dark); transform:translateY(-3px); }
 
+/* ========== AUTH NAV BUTTON ========== */
+.auth-nav-btn { display:flex; align-items:center; gap:6px; padding:7px 16px; border-radius:25px; text-decoration:none; font-size:0.88rem; font-weight:600; color:var(--white); background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); transition:var(--transition); cursor:pointer; white-space:nowrap; }
+.auth-nav-btn:hover { background:var(--primary); border-color:var(--primary); }
+.auth-nav-btn.logged-in { background:linear-gradient(135deg,var(--primary),var(--secondary)); border-color:transparent; }
+.user-avatar-mini { width:24px; height:24px; border-radius:50%; background:var(--white); color:var(--primary); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.75rem; }
+
 /* ========== ORDER SUCCESS ========== */
 .order-success { text-align:center; padding:40px; }
 .order-success-icon { font-size:5rem; margin-bottom:15px; }

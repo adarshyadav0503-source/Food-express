@@ -428,6 +428,7 @@ function selectPayment(type) {
 }
 
 function placeOrder() {
+  if (!requireLogin('place an order')) return;
   if (cart.length === 0) { showToast('❌ Cart is empty!'); return; }
   const name = document.getElementById('orderName')?.value;
   const phone = document.getElementById('orderPhone')?.value;
@@ -436,6 +437,9 @@ function placeOrder() {
   const orderId = 'FE' + Date.now().toString().slice(-8);
   document.getElementById('orderId').textContent = orderId;
   document.getElementById('orderSuccessModal').classList.add('show');
+  // Update user order count
+  const user = getCurrentUser();
+  if (user) { user.orders = (user.orders || 0) + 1; localStorage.setItem('foodieCurrentUser', JSON.stringify(user)); const users = JSON.parse(localStorage.getItem('foodieUsers')||'[]'); const idx = users.findIndex(u=>u.id===user.id); if(idx>=0){users[idx]=user;localStorage.setItem('foodieUsers',JSON.stringify(users));} }
   cart = []; saveCart(); updateCartUI();
 }
 
@@ -465,6 +469,7 @@ function selectTimeSlot(el) {
 
 function submitBooking(e) {
   e.preventDefault();
+  if (!requireLogin('book a table')) return;
   const name = document.getElementById('bookName')?.value;
   const phone = document.getElementById('bookPhone')?.value;
   const date = document.getElementById('bookDate')?.value;
@@ -563,6 +568,55 @@ function toggleFaq(el) {
   if (arrow) arrow.textContent = answer.classList.contains('show') ? '−' : '+';
 }
 
+/* ========== AUTH SYSTEM ========== */
+function getCurrentUser() {
+  try { return JSON.parse(localStorage.getItem('foodieCurrentUser')); } catch(e) { return null; }
+}
+
+function updateAuthUI() {
+  const user = getCurrentUser();
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions) return;
+
+  // Remove old auth button if exists
+  const oldAuth = document.getElementById('authNavBtn');
+  if (oldAuth) oldAuth.remove();
+
+  if (user) {
+    const btn = document.createElement('a');
+    btn.id = 'authNavBtn';
+    btn.href = 'login.html';
+    btn.className = 'auth-nav-btn logged-in';
+    btn.innerHTML = `<span class="user-avatar-mini">${user.name.charAt(0).toUpperCase()}</span> ${user.name.split(' ')[0]}`;
+    btn.title = `Logged in as ${user.name}`;
+    navActions.insertBefore(btn, navActions.firstChild);
+  } else {
+    const btn = document.createElement('a');
+    btn.id = 'authNavBtn';
+    btn.href = 'login.html';
+    btn.className = 'auth-nav-btn';
+    btn.innerHTML = '👤 Login';
+    navActions.insertBefore(btn, navActions.firstChild);
+  }
+}
+
+function authLogout() {
+  localStorage.removeItem('foodieCurrentUser');
+  updateAuthUI();
+  showToast('👋 Logged out successfully!');
+  setTimeout(() => window.location.href = 'login.html', 1000);
+}
+
+function requireLogin(action) {
+  const user = getCurrentUser();
+  if (!user) {
+    showToast('🔑 Please login first to ' + action);
+    setTimeout(() => window.location.href = 'login.html', 1500);
+    return false;
+  }
+  return true;
+}
+
 /* ========== INIT ========== */
 document.addEventListener('DOMContentLoaded', () => {
   // Navbar scroll effect
@@ -571,6 +625,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('backToTop');
     if (btn) btn.classList.toggle('show', window.scrollY > 500);
   });
+
+  // Init auth UI on all pages
+  updateAuthUI();
 
   // Init page-specific content
   renderAISuggestions();
